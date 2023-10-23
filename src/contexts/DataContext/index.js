@@ -20,19 +20,29 @@ export const DataProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
   const [last, setlast] = useState(null);
+
   const getData = useCallback(async () => {
     try {
       setData(await api.loadData());
-      const newdatalist = data.events.sort((eventA,eventB)=>new Date(eventB.date)-new Date(eventA.date))
-      console.log(newdatalist)
+    } catch (err) {
+      setError(err);
+    }
+  }, []);
+
+  const getLast = useCallback(async () => {
+    try {
+      const dataList = await api.loadData();
+      const newdatalist = dataList.events.sort((eventA,eventB)=>new Date(eventB.date)-new Date(eventA.date))
       setlast(newdatalist[0])
     } catch (err) {
       setError(err);
     }
   }, []);
+
   useEffect(() => {
     if (data) return;
     getData();
+    getLast();
   });
   
   return (

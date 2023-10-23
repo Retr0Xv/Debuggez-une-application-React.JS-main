@@ -20,6 +20,8 @@ const Form = ({ onSuccess, onError }) => {
       try {
         await mockContactApi();
         setSending(false);
+        // Appel de la fonction OnSuccess pour afficher la Modal "Message Envoyé"
+        onSuccess();
       } catch (err) {
         setSending(false);
         onError(err);
@@ -60,11 +62,11 @@ const Form = ({ onSuccess, onError }) => {
 Form.propTypes = {
   onError: PropTypes.func,
   onSuccess: PropTypes.func,
-}
+};
 
 Form.defaultProps = {
   onError: () => null,
   onSuccess: () => null,
-}
+};
 
 export default Form;
